@@ -6,11 +6,11 @@
     {{ 'admin.page_title.photo_by' | trans({'%username%': unsplashPhoto.unsplashUser.name}) | desc('Photo by %username%') }}
 {% endblock %}
 
-{% block page_title %}
+{% block title %}
     {{ 'admin.title.photo_by' | trans({'%username%': unsplashPhoto.unsplashUser.name}) | desc('Photo by %username%') }} - {{ parent() }}
 {% endblock %}
 
-{% block main %}
+{% block body %}
     <div class="container">
         <div class="row">
             <div class="col py-2">

@@ -13,8 +13,6 @@ use Doctrine\ORM\EntityRepository;
 class UserPhotoRepository extends EntityRepository
 {
     /**
-     * @param $userId
-     *
      * @return UserPhoto[]
      */
     public function findByMyPhotos($userId)

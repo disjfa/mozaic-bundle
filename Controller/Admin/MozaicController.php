@@ -8,40 +8,23 @@ use Disjfa\MozaicBundle\Entity\UnsplashPhoto;
 use Disjfa\MozaicBundle\Form\Type\AdminDateType;
 use Disjfa\MozaicBundle\Form\Type\SearchType;
 use Disjfa\MozaicBundle\Services\UnsplashClient;
-use Knp\Component\Pager\Paginator;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
 
-/**
- * @Route("/admin/mozaic")
- */
-class MozaicController extends Controller
+#[Route(path: '/admin/mozaic')]
+class MozaicController extends AbstractController
 {
-    /**
-     * @var Paginator
-     */
-    private $paginator;
-    /**
-     * @var UnsplashClient
-     */
-    private $unsplashClient;
-
-    public function __construct(PaginatorInterface $paginator, UnsplashClient $unsplashClient)
+    public function __construct(private readonly PaginatorInterface $paginator, private readonly UnsplashClient $unsplashClient)
     {
-        $this->paginator = $paginator;
-        $this->unsplashClient = $unsplashClient;
     }
 
     /**
-     * @Route("/daily", name="disjfa_mozaic_admin_mozaic_daily")
-     *
-     * @param Request $request
-     *
      * @return Response
      */
+    #[Route(path: '/daily', name: 'disjfa_mozaic_admin_mozaic_daily')]
     public function dailyAction(Request $request)
     {
         $form = $this->createForm(AdminDateType::class);
@@ -54,12 +37,9 @@ class MozaicController extends Controller
     }
 
     /**
-     * @Route("/photos", name="disjfa_mozaic_admin_mozaic_photos")
-     *
-     * @param Request $request
-     *
      * @return Response
      */
+    #[Route(path: '/photos', name: 'disjfa_mozaic_admin_mozaic_photos')]
     public function photosAction(Request $request)
     {
         $unsplashPhotos = $this->getDoctrine()->getRepository(UnsplashPhoto::class)->findAllPaginated($this->paginator, $request->query->getInt('page', 1), $request->query->getInt('limit', 16));
@@ -70,12 +50,9 @@ class MozaicController extends Controller
     }
 
     /**
-     * @Route("/search", name="disjfa_mozaic_admin_mozaic_search")
-     *
-     * @param Request $request
-     *
      * @return Response
      */
+    #[Route(path: '/search', name: 'disjfa_mozaic_admin_mozaic_search')]
     public function searchAction(Request $request)
     {
         $form = $this->createForm(SearchType::class);
@@ -98,12 +75,9 @@ class MozaicController extends Controller
     }
 
     /**
-     * @Route("/show/{unsplashPhoto}", name="disjfa_mozaic_admin_mozaic_show")
-     *
-     * @param UnsplashPhoto $unsplashPhoto
-     *
      * @return Response
      */
+    #[Route(path: '/show/{unsplashPhoto}', name: 'disjfa_mozaic_admin_mozaic_show')]
     public function showAction(UnsplashPhoto $unsplashPhoto)
     {
         return $this->render('@DisjfaMozaic/Admin/Mozaic/show.html.twig', [

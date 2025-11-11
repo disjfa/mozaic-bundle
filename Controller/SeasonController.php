@@ -4,20 +4,17 @@ namespace Disjfa\MozaicBundle\Controller;
 
 use Disjfa\MozaicBundle\Entity\UnsplashSeason;
 use Disjfa\MozaicBundle\Entity\UnsplashSeasonItem;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
 
-/**
- * @Route("/mozaic-season")
- */
-class SeasonController extends Controller
+#[Route(path: '/mozaic-season')]
+class SeasonController extends AbstractController
 {
     /**
-     * @Route("", name="disjfa_mozaic_season_index")
-     *
      * @return Response
      */
+    #[Route(path: '', name: 'disjfa_mozaic_season_index')]
     public function indexAction()
     {
         return $this->render('@DisjfaMozaic/Season/index.html.twig', [
@@ -26,12 +23,9 @@ class SeasonController extends Controller
     }
 
     /**
-     * @Route("/{unsplashSeason}", name="disjfa_mozaic_season_show")
-     *
-     * @param UnsplashSeason $unsplashSeason
-     *
      * @return Response
      */
+    #[Route(path: '/{unsplashSeason}', name: 'disjfa_mozaic_season_show')]
     public function showAction(UnsplashSeason $unsplashSeason)
     {
         $this->denyAccessUnlessGranted('view', $unsplashSeason);
@@ -42,13 +36,9 @@ class SeasonController extends Controller
     }
 
     /**
-     * @Route("/{unsplashSeason}/{unsplashSeasonItem}", name="disjfa_mozaic_season_item")
-     *
-     * @param UnsplashSeason     $unsplashSeason
-     * @param UnsplashSeasonItem $unsplashSeasonItem
-     *
      * @return Response
      */
+    #[Route(path: '/{unsplashSeason}/{unsplashSeasonItem}', name: 'disjfa_mozaic_season_item')]
     public function itemAction(UnsplashSeason $unsplashSeason, UnsplashSeasonItem $unsplashSeasonItem)
     {
         $unsplashPhoto = $unsplashSeasonItem->getUnsplashPhoto();

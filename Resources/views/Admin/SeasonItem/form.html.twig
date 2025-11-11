@@ -2,7 +2,7 @@
 
 {% trans_default_domain 'mozaic' %}
 
-{% block page_title %}
+{% block title %}
     {{ 'admin.title.season_create' | trans | desc('Seasons form') }} - {{ parent() }}
 {% endblock %}
 
@@ -10,7 +10,7 @@
     {{ 'admin.page_title.season_create' | trans | desc('Seasons form') }}
 {% endblock %}
 
-{% block main %}
+{% block body %}
     <div class="container py-3">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">

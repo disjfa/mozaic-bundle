@@ -3,15 +3,15 @@
 namespace Disjfa\MozaicBundle\Twig;
 
 use Disjfa\MozaicBundle\Entity\UnsplashPhoto;
-use Twig_Extension;
-use Twig_SimpleFilter;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
 
-class UnsplashExtension extends Twig_Extension
+class UnsplashExtension extends AbstractExtension
 {
     public function getFilters()
     {
         return [
-            new Twig_SimpleFilter('unsplash_photo_block', [$this, 'unsplashPhotoBlock']),
+            new TwigFilter('unsplash_photo_block', $this->unsplashPhotoBlock(...)),
         ];
     }
 

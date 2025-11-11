@@ -2,6 +2,7 @@
 
 namespace Disjfa\MozaicBundle\Entity;
 
+use Doctrine\DBAL\LockMode;
 use Doctrine\ORM\EntityRepository;
 
 /**
@@ -16,10 +17,8 @@ class UnsplashUserRepository extends EntityRepository
      * @param string $id
      * @param null   $lockMode
      * @param null   $lockVersion
-     *
-     * @return object|null
      */
-    public function find($id, $lockMode = null, $lockVersion = null)
+    public function find(mixed $id, LockMode|int|null $lockMode = null, ?int $lockVersion = null): ?object
     {
         return $this->findOneBy(['unsplashId' => $id]);
     }

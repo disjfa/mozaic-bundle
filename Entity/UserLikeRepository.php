@@ -8,11 +8,6 @@ use Doctrine\ORM\NonUniqueResultException;
 class UserLikeRepository extends EntityRepository
 {
     /**
-     * @param UnsplashPhoto $unsplashPhoto
-     * @param int           $userId
-     *
-     * @return mixed
-     *
      * @throws NonUniqueResultException
      */
     public function findUserLike(UnsplashPhoto $unsplashPhoto, int $userId)

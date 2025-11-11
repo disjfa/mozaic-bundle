@@ -2,33 +2,27 @@
 
 namespace Disjfa\MozaicBundle\Services;
 
-use Crew\Unsplash\HttpClient;
-use Crew\Unsplash\Photo;
 use Disjfa\MozaicBundle\Entity\UnsplashPhoto;
 use Disjfa\MozaicBundle\Entity\UnsplashUser;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Routing\RouterInterface;
+use Unsplash\HttpClient;
+use Unsplash\Photo;
 
 class UnsplashClient
 {
     /**
-     * @var EntityManagerInterface
+     * @throws \Exception
      */
-    private $entityManager;
-
-    /**
-     * @param $applicationId
-     * @param $secret
-     * @param RouterInterface        $router
-     * @param EntityManagerInterface $entityManager
-     *
-     * @throws Exception
-     */
-    public function __construct(string $applicationId, string $secret, RouterInterface $router, EntityManagerInterface $entityManager)
-    {
+    public function __construct(
+        #[Autowire(env: 'DISJFA_MOZAIC_APPLICATION_ID')] string $applicationId,
+        #[Autowire(env: 'DISJFA_MOZAIC_SECRET')] string $secret,
+        RouterInterface $router,
+        private readonly EntityManagerInterface $entityManager,
+    ) {
         if (empty($applicationId) || empty($secret)) {
-            throw new Exception('No "disjfa_mozaic.unsplash.application_id" or "disjfa_mozaic.unsplash.secret" set in parameters');
+            throw new \Exception('No "disjfa_mozaic.unsplash.application_id" or "disjfa_mozaic.unsplash.secret" set in parameters');
         }
 
         HttpClient::init([
@@ -37,7 +31,6 @@ class UnsplashClient
             'callbackUrl' => $router->generate('disjfa_mozaic_unsplash_callback', [], 0),
             'utmSource' => 'dimme_mozaic',
         ]);
-        $this->entityManager = $entityManager;
     }
 
     /**
@@ -51,8 +44,6 @@ class UnsplashClient
     }
 
     /**
-     * @param string $unsplashId
-     *
      * @return UnsplashPhoto
      */
     public function find(string $unsplashId)
@@ -68,8 +59,6 @@ class UnsplashClient
     }
 
     /**
-     * @param Photo $photo
-     *
      * @return UnsplashPhoto
      */
     private function updateOrInsertPhoto(Photo $photo)
@@ -82,7 +71,7 @@ class UnsplashClient
 
         $unsplashPhoto = $this->entityManager->getRepository(UnsplashPhoto::class)->find($photo->id);
         if (null === $unsplashPhoto) {
-            $location = isset($photo->location) ? $photo->location : [];
+            $location = $photo->location ?? [];
             $unsplashPhoto = new UnsplashPhoto($unsplashUser, $photo->id, $photo->description, $photo->created_at, $photo->width, $photo->height, $photo->color, $photo->likes, $photo->urls, $photo->links, $location);
             $this->entityManager->persist($unsplashPhoto);
         }

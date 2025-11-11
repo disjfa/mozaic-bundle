@@ -2,7 +2,7 @@
 
 {% trans_default_domain 'mozaic' %}
 
-{% block page_title %}
+{% block title %}
     {{ 'admin.title.daily_photos' | trans | desc('Daily photos') }} - {{ parent() }}
 {% endblock %}
 
@@ -10,7 +10,7 @@
     {{ 'admin.page_title.daily_photos' | trans | desc('Daily photos') }}
 {% endblock %}
 
-{% block main %}
+{% block body %}
     <div class="bg-light py-2">
         <div class="container">
             {{ form_start(form) }}

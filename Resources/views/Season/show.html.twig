@@ -2,7 +2,7 @@
 
 {% trans_default_domain 'mozaic' %}
 
-{% block page_title %}
+{% block title %}
     Seasons - {{ parent() }}
 {% endblock %}
 
@@ -19,7 +19,7 @@
     <meta property="og:description" content="{{ unsplashSeason.description }}"/>
 {% endblock %}
 
-{% block main %}
+{% block body %}
     <div class="bg-primary text-white py-5">
         <div class="container">
             <h1>{{ unsplashSeason.title }}</h1>

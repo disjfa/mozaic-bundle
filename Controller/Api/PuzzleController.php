@@ -2,41 +2,36 @@
 
 namespace Disjfa\MozaicBundle\Controller\Api;
 
-use DateTime;
 use Disjfa\MozaicBundle\Entity\UnsplashPhoto;
 use Disjfa\MozaicBundle\Entity\UserPhoto;
+use Doctrine\ORM\EntityManagerInterface;
 use FOS\UserBundle\Model\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\Routing\Attribute\Route;
 
-/**
- * @Route("/api/mozaic")
- */
-class PuzzleController extends Controller
+#[Route(path: '/api/mozaic')]
+class PuzzleController extends AbstractController
 {
     /**
-     * @Route("/{unsplashPhoto}", name="disjfa_mozaic_api_puzzle_photo")
-     *
-     * @param UnsplashPhoto $unsplashPhoto
-     *
      * @return Response
      */
-    public function photoAction(UnsplashPhoto $unsplashPhoto)
+    #[Route(path: '/{unsplashPhoto}', name: 'disjfa_mozaic_api_puzzle_photo')]
+    public function photoAction(UnsplashPhoto $unsplashPhoto, Request $request)
     {
-//        $mozaicPuzzel = new MozaicPuzzle($unsplashPhoto);
-//        dump($mozaicPuzzel);
-//        exit;
-//        dump($unsplashPhoto);
-//        exit;
+        //        $mozaicPuzzel = new MozaicPuzzle($unsplashPhoto);
+        //        dump($mozaicPuzzel);
+        //        exit;
+        //        dump($unsplashPhoto);
+        //        exit;
 
         $image = $unsplashPhoto->getUrlRaw();
         $width = $unsplashPhoto->getWidth();
-        //$height = 3264;
+        // $height = 3264;
         $height = $width / 16 * 9;
 
         $w = 1040;
@@ -130,26 +125,25 @@ class PuzzleController extends Controller
                 $mozaic[] = $item;
             }
         }
-        $now = new DateTime('now');
+        $now = new \DateTime('now');
         $dates = [
-            $unsplashPhoto->getId() => $now->format('r'),
+            (string) $unsplashPhoto->getId() => $now->format('r'),
         ];
 
-        $this->get('session')->set('dates', $dates);
-        $this->get('session')->save();
+        $session = $request->getSession();
+        $session->set('dates', $dates);
+        $session->save();
 
         return new JsonResponse(['mozaic' => $mozaic]);
     }
 
     /**
-     * @Route("/{unsplashPhoto}/finish", name="disjfa_mozaic_api_puzzle_finish")
      * @Method("POST")
-     *
-     * @param UnsplashPhoto $unsplashPhoto
      *
      * @return Response
      */
-    public function finishAction(UnsplashPhoto $unsplashPhoto, Request $request)
+    #[Route(path: '/{unsplashPhoto}/finish', name: 'disjfa_mozaic_api_puzzle_finish')]
+    public function finishAction(UnsplashPhoto $unsplashPhoto, Request $request, EntityManagerInterface $entityManager)
     {
         $requestData = json_decode($request->getContent(), true);
         if (false === array_key_exists('token', $requestData)) {
@@ -167,17 +161,19 @@ class PuzzleController extends Controller
             $userId = null;
         }
 
-        $dateFinished = new DateTime('now');
-        $dates = $this->get('session')->get('dates');
-        if (isset($dates[$unsplashPhoto->getId()])) {
-            $dateStarted = new DateTime($dates[$unsplashPhoto->getId()]);
+        $dateFinished = new \DateTime('now');
+        $session = $dates = $request->g;
+        $sessionetSession()->get;
+        $session('dates');
+        if (isset($dates[(string) $unsplashPhoto->getId()])) {
+            $dateStarted = new \DateTime($dates[$unsplashPhoto->getId()]);
         } else {
             $dateStarted = $dateFinished;
         }
 
         $userPhoto = new UserPhoto($unsplashPhoto, $userId, $dateStarted, $dateFinished);
-        $this->getDoctrine()->getManager()->persist($userPhoto);
-        $this->getDoctrine()->getManager()->flush($userPhoto);
+        $entityManager->persist($userPhoto);
+        $entityManager->flush($userPhoto);
 
         return new JsonResponse([
             'message' => 'saved',

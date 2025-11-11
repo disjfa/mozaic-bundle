@@ -10,33 +10,22 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class UnsplashSeasonVoter extends Voter
 {
-    const VIEW = 'view';
-    const EDIT = 'edit';
-    /**
-     * @var Security
-     */
-    private $security;
+    public const VIEW = 'view';
+    public const EDIT = 'edit';
 
-    public function __construct(Security $security)
+    public function __construct(private readonly Security $security)
     {
-        $this->security = $security;
     }
 
-    /**
-     * @param string $attribute
-     * @param mixed  $subject
-     *
-     * @return bool
-     */
-    protected function supports($attribute, $subject)
+    protected function supports(string $attribute, mixed $subject): bool
     {
         // if the attribute isn't one we support, return false
-        if ( ! in_array($attribute, [self::VIEW, self::EDIT])) {
+        if (!in_array($attribute, [self::VIEW, self::EDIT])) {
             return false;
         }
 
         // only vote on Post objects inside this voter
-        if ( ! $subject instanceof UnsplashSeason) {
+        if (!$subject instanceof UnsplashSeason) {
             return false;
         }
 
@@ -44,13 +33,9 @@ class UnsplashSeasonVoter extends Voter
     }
 
     /**
-     * @param string         $attribute
      * @param UnsplashSeason $subject
-     * @param TokenInterface $token
-     *
-     * @return bool
      */
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
 

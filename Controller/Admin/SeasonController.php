@@ -7,36 +7,20 @@ use Disjfa\MozaicBundle\Entity\UnsplashSeasonItem;
 use Disjfa\MozaicBundle\Form\Type\AdminSeasonType;
 use Disjfa\MozaicBundle\Form\Type\SearchType;
 use Disjfa\MozaicBundle\Services\UnsplashClient;
-use Exception;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-/**
- * @Route("/admin/mozaic_season")
- */
-class SeasonController extends Controller
+#[Route(path: '/admin/mozaic_season')]
+class SeasonController extends AbstractController
 {
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
-    /**
-     * @var UnsplashClient
-     */
-    private $unsplashClient;
-
-    public function __construct(TranslatorInterface $translator, UnsplashClient $unsplashClient)
+    public function __construct(private readonly TranslatorInterface $translator, private readonly UnsplashClient $unsplashClient)
     {
-        $this->translator = $translator;
-        $this->unsplashClient = $unsplashClient;
     }
 
-    /**
-     * @Route("", name="disjfa_mozaic_admin_season_index")
-     */
+    #[Route(path: '', name: 'disjfa_mozaic_admin_season_index')]
     public function indexAction()
     {
         return $this->render('@DisjfaMozaic/Admin/Season/index.html.twig', [
@@ -45,12 +29,9 @@ class SeasonController extends Controller
     }
 
     /**
-     * @Route("/{unsplashSeason}/show", name="disjfa_mozaic_admin_season_show")
-     *
-     * @param UnsplashSeason $unsplashSeason
-     *
      * @return Response
      */
+    #[Route(path: '/{unsplashSeason}/show', name: 'disjfa_mozaic_admin_season_show')]
     public function showAction(Request $request, UnsplashSeason $unsplashSeason)
     {
         $form = $this->createForm(SearchType::class);
@@ -70,7 +51,7 @@ class SeasonController extends Controller
                 return $this->redirectToRoute('disjfa_mozaic_admin_season_item_edit', [
                     'unsplashSeasonItem' => $unsplashSeasonItem->getId(),
                 ]);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->addFlash('warning', $e->getMessage());
             }
         }
@@ -82,21 +63,15 @@ class SeasonController extends Controller
     }
 
     /**
-     * @Route("/{unsplashSeason}/edit", name="disjfa_mozaic_admin_season_edit")
-     *
-     * @param Request        $request
-     * @param UnsplashSeason $unsplashSeason
-     *
      * @return Response
      */
+    #[Route(path: '/{unsplashSeason}/edit', name: 'disjfa_mozaic_admin_season_edit')]
     public function editAction(Request $request, UnsplashSeason $unsplashSeason)
     {
         return $this->handleForm($request, $unsplashSeason);
     }
 
-    /**
-     * @Route("/create", name="disjfa_mozaic_admin_season_create")
-     */
+    #[Route(path: '/create', name: 'disjfa_mozaic_admin_season_create')]
     public function createAction(Request $request)
     {
         $unsplashSeason = new UnsplashSeason();
@@ -105,9 +80,6 @@ class SeasonController extends Controller
     }
 
     /**
-     * @param Request        $request
-     * @param UnsplashSeason $unsplashSeason
-     *
      * @return Response
      */
     private function handleForm(Request $request, UnsplashSeason $unsplashSeason)

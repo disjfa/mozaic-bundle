@@ -7,9 +7,6 @@ use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 class MozaicAdminMenuListener
 {
-    /**
-     * @param ConfigureMenuEvent $event
-     */
     public function onMenuConfigure(ConfigureMenuEvent $event)
     {
         try {
@@ -23,7 +20,7 @@ class MozaicAdminMenuListener
             $mozaicMenu->addChild('Daily', ['route' => 'disjfa_mozaic_admin_mozaic_daily'])->setExtra('icon', 'fa-calendar');
             $mozaicMenu->addChild('All photos', ['route' => 'disjfa_mozaic_admin_mozaic_photos'])->setExtra('icon', 'fa-image');
             $mozaicMenu->addChild('Search', ['route' => 'disjfa_mozaic_admin_mozaic_search'])->setExtra('icon', 'fa-search');
-        } catch (RouteNotFoundException $e) {
+        } catch (RouteNotFoundException) {
             // routing.yml not set up
             return;
         }

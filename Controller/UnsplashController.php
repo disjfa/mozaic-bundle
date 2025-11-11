@@ -2,18 +2,14 @@
 
 namespace Disjfa\MozaicBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Attribute\Route;
 
-/**
- * @Route("/mozaic/unsplash")
- */
-class UnsplashController extends Controller
+#[Route(path: '/mozaic/unsplash')]
+class UnsplashController extends AbstractController
 {
-    /**
-     * @Route("/callback", name="disjfa_mozaic_unsplash_callback")
-     */
+    #[Route(path: '/callback', name: 'disjfa_mozaic_unsplash_callback')]
     public function callbackAction(Request $request)
     {
         // @todo this does nothing

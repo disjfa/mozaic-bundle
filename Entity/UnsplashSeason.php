@@ -2,64 +2,59 @@
 
 namespace Disjfa\MozaicBundle\Entity;
 
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
+use Symfony\Bridge\Doctrine\Types\UuidType;
+use Symfony\Component\Uid\Uuid;
 
-/**
- * @ORM\Entity(repositoryClass="UnsplashSeasonRepository")
- * @ORM\Table(name="unsplash_season")
- */
+#[ORM\Entity(repositoryClass: \UnsplashSeasonRepository::class)]
+#[ORM\Table(name: 'unsplash_season')]
 class UnsplashSeason
 {
-    /**
-     * @var string
-     * @ORM\Column(type="guid")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\Column(type: UuidType::NAME, unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
+    private ?Uuid $id = null;
 
     /**
      * @var string
-     * @ORM\Column(name="title", type="string", nullable=false)
      */
+    #[ORM\Column(name: 'title', type: 'string', nullable: false)]
     private $title;
 
     /**
      * @var string
-     * @ORM\Column(name="description", type="text", nullable=true)
      */
+    #[ORM\Column(name: 'description', type: 'text', nullable: true)]
     private $description;
 
     /**
-     * @var DateTime
-     * @ORM\Column(name="date_season", type="datetime")
+     * @var \DateTime
      */
+    #[ORM\Column(name: 'date_season', type: 'datetime')]
     private $dateSeason;
 
     /**
      * @var bool
-     * @ORM\Column(name="public", type="boolean")
      */
+    #[ORM\Column(name: 'public', type: 'boolean')]
     private $public;
 
     /**
      * @var UnsplashSeasonItem[]|ArrayCollection
-     * @ORM\OneToMany(targetEntity="Disjfa\MozaicBundle\Entity\UnsplashSeasonItem", mappedBy="unsplashSeason")
      */
+    #[ORM\OneToMany(targetEntity: UnsplashSeasonItem::class, mappedBy: 'unsplashSeason')]
     private $items;
 
     public function __construct()
     {
-        $this->dateSeason = new DateTime();
+        $this->dateSeason = new \DateTime();
         $this->public = false;
         $this->title = '';
     }
 
-    /**
-     * @return mixed
-     */
     public function getId()
     {
         return $this->id;
@@ -97,33 +92,21 @@ class UnsplashSeason
         $this->description = $description;
     }
 
-    /**
-     * @return DateTime
-     */
-    public function getDateSeason(): DateTime
+    public function getDateSeason(): \DateTime
     {
         return $this->dateSeason;
     }
 
-    /**
-     * @param DateTime $dateSeason
-     */
-    public function setDateSeason(DateTime $dateSeason): void
+    public function setDateSeason(\DateTime $dateSeason): void
     {
         $this->dateSeason = $dateSeason;
     }
 
-    /**
-     * @return bool
-     */
     public function isPublic(): bool
     {
         return $this->public;
     }
 
-    /**
-     * @param bool $public
-     */
     public function setPublic(bool $public): void
     {
         $this->public = $public;

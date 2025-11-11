@@ -3,70 +3,54 @@
 namespace Disjfa\MozaicBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
+use Symfony\Bridge\Doctrine\Types\UuidType;
+use Symfony\Component\Uid\Uuid;
 
-/**
- * @ORM\Entity()
- * @ORM\Table(name="unsplash_season_item")
- */
+#[ORM\Entity]
+#[ORM\Table(name: 'unsplash_season_item')]
 class UnsplashSeasonItem
 {
     /**
      * @var string
-     * @ORM\Column(type="guid")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
      */
-    private $id;
+    #[ORM\Id]
+    #[ORM\Column(type: UuidType::NAME, unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
+    private ?Uuid $id = null;
 
     /**
      * @var string
-     * @ORM\Column(name="title", type="string", nullable=false)
      */
+    #[ORM\Column(name: 'title', type: 'string', nullable: false)]
     private $title;
 
     /**
      * @var string
-     * @ORM\Column(name="description", type="text", nullable=true)
      */
+    #[ORM\Column(name: 'description', type: 'text', nullable: true)]
     private $description;
 
     /**
      * @var int
-     * @ORM\Column(name="seqnr", type="integer")
      */
+    #[ORM\Column(name: 'seqnr', type: 'integer')]
     private $seqnr;
 
-    /**
-     * @var UnsplashPhoto
-     * @ORM\ManyToOne(targetEntity="Disjfa\MozaicBundle\Entity\UnsplashPhoto")
-     */
-    private $unsplashPhoto;
-
-    /**
-     * @var UnsplashSeason
-     * @ORM\ManyToOne(targetEntity="Disjfa\MozaicBundle\Entity\UnsplashSeason", inversedBy="items")
-     */
-    private $unsplashSeason;
-
-    public function __construct(UnsplashSeason $unsplashSeason, UnsplashPhoto $unsplashPhoto)
+    public function __construct(#[ORM\ManyToOne(targetEntity: UnsplashSeason::class, inversedBy: 'items')]
+        private readonly UnsplashSeason $unsplashSeason, #[ORM\ManyToOne(targetEntity: UnsplashPhoto::class)]
+        private UnsplashPhoto $unsplashPhoto)
     {
         $this->seqnr = 50;
-        $this->unsplashSeason = $unsplashSeason;
-        $this->unsplashPhoto = $unsplashPhoto;
         $this->title = '';
     }
 
-    /**
-     * @return mixed
-     */
     public function getId()
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
     public function getTitle(): string
     {
         return $this->title;
@@ -96,17 +80,11 @@ class UnsplashSeasonItem
         $this->description = $description;
     }
 
-    /**
-     * @return int
-     */
     public function getSeqnr(): int
     {
         return $this->seqnr;
     }
 
-    /**
-     * @param int $seqnr
-     */
     public function setSeqnr(int $seqnr): void
     {
         $this->seqnr = $seqnr;
@@ -120,17 +98,11 @@ class UnsplashSeasonItem
         return $this->unsplashPhoto;
     }
 
-    /**
-     * @param UnsplashPhoto $unsplashPhoto
-     */
     public function setUnsplashPhoto(UnsplashPhoto $unsplashPhoto): void
     {
         $this->unsplashPhoto = $unsplashPhoto;
     }
 
-    /**
-     * @return UnsplashSeason
-     */
     public function getUnsplashSeason(): UnsplashSeason
     {
         return $this->unsplashSeason;

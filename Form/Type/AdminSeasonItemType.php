@@ -13,10 +13,6 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class AdminSeasonItemType extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array                $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('title', TextType::class, [
@@ -34,9 +30,6 @@ class AdminSeasonItemType extends AbstractType
         ]);
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

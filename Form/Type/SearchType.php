@@ -10,10 +10,6 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class SearchType extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array                $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('unsplashId', TextType::class, [
@@ -22,9 +18,6 @@ class SearchType extends AbstractType
         ]);
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

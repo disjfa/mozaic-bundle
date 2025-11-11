@@ -4,44 +4,35 @@ namespace Disjfa\MozaicBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
+use Symfony\Bridge\Doctrine\Types\UuidType;
+use Symfony\Component\Uid\Uuid;
 
-/**
- * @ORM\Entity(repositoryClass="UserLikeRepository")
- * @ORM\Table(name="unsplash_user_likes", uniqueConstraints={@UniqueConstraint(name="user_like", columns={"unsplash_photo_id", "user_id"})})
- */
+#[ORM\Entity(repositoryClass: \UserLikeRepository::class)]
+#[ORM\Table(name: 'unsplash_user_likes')]
+#[UniqueConstraint(name: 'user_like', columns: ['unsplash_photo_id', 'user_id'])]
 class UserLike
 {
     /**
      * @var string
-     * @ORM\Column(type="guid")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
      */
-    private $id;
+    #[ORM\Id]
+    #[ORM\Column(type: UuidType::NAME, unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
+    private ?Uuid $id = null;
 
     /**
-     * @var UnsplashPhoto
-     * @ORM\ManyToOne(targetEntity="Disjfa\MozaicBundle\Entity\UnsplashPhoto", inversedBy="userLikes")
+     * @param string $userId
      */
-    private $unsplashPhoto;
-
-    /**
-     * @var bool
-     * @ORM\Column(name="liked", type="boolean")
-     */
-    private $liked;
-
-    /**
-     * @var string
-     * @ORM\Column(name="user_id", type="string", nullable=true)
-     */
-    private $userId;
-
-    public function __construct(UnsplashPhoto $unsplashPhoto, $userId, bool $liked)
-    {
-        $this->unsplashPhoto = $unsplashPhoto;
-        $this->userId = $userId;
-        $this->liked = $liked;
+    public function __construct(
+        #[ORM\ManyToOne(targetEntity: UnsplashPhoto::class, inversedBy: 'userLikes')]
+        private readonly UnsplashPhoto $unsplashPhoto,
+        #[ORM\Column(name: 'user_id', type: 'string', nullable: true)]
+        private $userId,
+        #[ORM\Column(name: 'liked', type: 'boolean')]
+        private bool $liked,
+    ) {
     }
 
     /**
@@ -68,17 +59,11 @@ class UserLike
         return $this->userId;
     }
 
-    /**
-     * @return bool
-     */
     public function isLiked(): bool
     {
         return $this->liked;
     }
 
-    /**
-     * @param bool $liked
-     */
     public function setLiked(bool $liked): void
     {
         $this->liked = $liked;

@@ -3,96 +3,96 @@
 namespace Disjfa\MozaicBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
+use Symfony\Bridge\Doctrine\Types\UuidType;
+use Symfony\Component\Uid\Uuid;
 
-/**
- * @ORM\Entity(repositoryClass="UnsplashUserRepository")
- * @ORM\Table(name="unsplash_users")
- */
+#[ORM\Entity(repositoryClass: \UnsplashUserRepository::class)]
+#[ORM\Table(name: 'unsplash_users')]
 class UnsplashUser
 {
-    /**
-     * @ORM\Column(type="guid")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\Column(type: UuidType::NAME, unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
+    private ?Uuid $id = null;
 
     /**
      * @var string
-     * @ORM\Column(name="unsplash_id", type="string", nullable=false, unique=true)
      */
+    #[ORM\Column(name: 'unsplash_id', type: 'string', nullable: false, unique: true)]
     private $unsplashId;
 
     /**
      * @var string
-     * @ORM\Column(name="username", type="string")
      */
+    #[ORM\Column(name: 'username', type: 'string')]
     private $username;
 
     /**
      * @var string
-     * @ORM\Column(name="name", type="string")
      */
+    #[ORM\Column(name: 'name', type: 'string')]
     private $name;
 
     /**
      * @var string
-     * @ORM\Column(name="first_name", type="string", nullable=true)
      */
+    #[ORM\Column(name: 'first_name', type: 'string', nullable: true)]
     private $firstName;
 
     /**
      * @var string
-     * @ORM\Column(name="last_name", type="string", nullable=true)
      */
+    #[ORM\Column(name: 'last_name', type: 'string', nullable: true)]
     private $lastName;
 
     /**
      * @var string
-     * @ORM\Column(name="portfolio_url", type="string", nullable=true)
      */
+    #[ORM\Column(name: 'portfolio_url', type: 'string', nullable: true)]
     private $portfolioUrl;
 
     /**
      * @var string
-     * @ORM\Column(name="bio", type="text", nullable=true)
      */
+    #[ORM\Column(name: 'bio', type: 'text', nullable: true)]
     private $bio;
 
     /**
      * @var string
-     * @ORM\Column(name="location", type="string", nullable=true)
      */
+    #[ORM\Column(name: 'location', type: 'string', nullable: true)]
     private $location;
 
     /**
      * @var int
-     * @ORM\Column(name="total_likes", type="integer", nullable=true)
      */
+    #[ORM\Column(name: 'total_likes', type: 'integer', nullable: true)]
     private $totalLikes;
 
     /**
      * @var int
-     * @ORM\Column(name="total_photos", type="integer", nullable=true)
      */
+    #[ORM\Column(name: 'total_photos', type: 'integer', nullable: true)]
     private $totalPhotos;
 
     /**
      * @var int
-     * @ORM\Column(name="total_collections", type="integer", nullable=true)
      */
+    #[ORM\Column(name: 'total_collections', type: 'integer', nullable: true)]
     private $totalCollections;
 
     /**
      * @var string
-     * @ORM\Column(name="profile_image", type="string", nullable=true)
      */
+    #[ORM\Column(name: 'profile_image', type: 'string', nullable: true)]
     private $profileImage;
 
     /**
      * @var string
-     * @ORM\Column(name="link_html", type="string", nullable=true)
      */
+    #[ORM\Column(name: 'link_html', type: 'string', nullable: true)]
     private $linkHtml;
 
     public function __construct(array $user)
@@ -138,9 +138,6 @@ class UnsplashUser
         }
     }
 
-    /**
-     * @return mixed
-     */
     public function getId()
     {
         return $this->id;

@@ -2,160 +2,119 @@
 
 namespace Disjfa\MozaicBundle\Entity;
 
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
+use Symfony\Bridge\Doctrine\Types\UuidType;
+use Symfony\Component\Uid\Uuid;
 
-/**
- * @ORM\Entity(repositoryClass="UnsplashPhotoRepository")
- * @ORM\Table(name="unsplash_images")
- */
-class UnsplashPhoto
+#[ORM\Entity(repositoryClass: \UnsplashPhotoRepository::class)]
+#[ORM\Table(name: 'unsplash_images')]
+class UnsplashPhoto implements \Stringable
 {
-    /**
-     * @ORM\Column(type="guid")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\Column(type: UuidType::NAME, unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
+    private ?Uuid $id = null;
 
     /**
-     * @var string
-     * @ORM\Column(name="unsplash_id", type="string", nullable=false, unique=true)
+     * @var \DateTime
      */
-    private $unsplashId;
-
-    /**
-     * @var DateTime
-     * @ORM\Column(name="created_at", type="datetime", nullable=false)
-     */
+    #[ORM\Column(name: 'created_at', type: 'datetime', nullable: false)]
     private $createdAt;
 
     /**
-     * @var int
-     * @ORM\Column(name="width", type="integer", nullable=false)
-     */
-    private $width;
-
-    /**
-     * @var int
-     * @ORM\Column(name="height", type="integer", nullable=false)
-     */
-    private $height;
-
-    /**
      * @var string
-     * @ORM\Column(name="color", type="string", nullable=false)
      */
-    private $color;
-
-    /**
-     * @var int
-     * @ORM\Column(name="likes", type="integer")
-     */
-    private $likes;
-
-    /**
-     * @var string
-     * @ORM\Column(name="url_raw", type="string")
-     */
+    #[ORM\Column(name: 'url_raw', type: 'string')]
     private $urlRaw;
 
     /**
      * @var string
-     * @ORM\Column(name="url_regular", type="string")
      */
+    #[ORM\Column(name: 'url_regular', type: 'string')]
     private $urlRegular;
 
     /**
      * @var string
-     * @ORM\Column(name="title", type="string", nullable=true)
      */
+    #[ORM\Column(name: 'title', type: 'string', nullable: true)]
     private $title;
 
     /**
      * @var string
-     * @ORM\Column(name="description", type="text", nullable=true)
      */
+    #[ORM\Column(name: 'description', type: 'text', nullable: true)]
     private $description;
 
     /**
      * @var string
-     * @ORM\Column(name="name", type="string", nullable=true)
      */
+    #[ORM\Column(name: 'name', type: 'string', nullable: true)]
     private $name;
 
     /**
      * @var string
-     * @ORM\Column(name="city", type="string", nullable=true)
      */
+    #[ORM\Column(name: 'city', type: 'string', nullable: true)]
     private $city;
 
     /**
      * @var string
-     * @ORM\Column(name="country", type="string", nullable=true)
      */
+    #[ORM\Column(name: 'country', type: 'string', nullable: true)]
     private $country;
 
     /**
      * @var float
-     * @ORM\Column(name="latitude", type="float", nullable=true)
      */
+    #[ORM\Column(name: 'latitude', type: 'float', nullable: true)]
     private $latitude;
 
     /**
      * @var float
-     * @ORM\Column(name="longitude", type="float", nullable=true)
      */
+    #[ORM\Column(name: 'longitude', type: 'float', nullable: true)]
     private $longitude;
 
     /**
      * @var string
-     * @ORM\Column(name="link_html", type="string")
      */
+    #[ORM\Column(name: 'link_html', type: 'string')]
     private $linkHtml;
 
     /**
-     * @var UnsplashUser
-     * @ORM\ManyToOne(targetEntity="Disjfa\MozaicBundle\Entity\UnsplashUser")
-     */
-    private $unsplashUser;
-
-    /**
      * @var UserPhoto[]|ArrayCollection
-     * @ORM\OneToMany(targetEntity="Disjfa\MozaicBundle\Entity\UserPhoto", mappedBy="unsplashPhoto")
      */
+    #[ORM\OneToMany(targetEntity: UserPhoto::class, mappedBy: 'unsplashPhoto')]
     private $userPhotos;
 
     /**
      * @var UserLike[]|ArrayCollection
-     * @ORM\OneToMany(targetEntity="Disjfa\MozaicBundle\Entity\UserLike", mappedBy="unsplashPhoto")
      */
+    #[ORM\OneToMany(targetEntity: UserLike::class, mappedBy: 'unsplashPhoto')]
     private $userLikes;
 
     /**
      * UnsplashPhoto constructor.
      *
-     * @param UnsplashUser $unsplashUser
-     * @param string       $unsplashId
-     * @param $createdAt
-     * @param $width
-     * @param $height
-     * @param $color
-     * @param $likes
-     * @param array $urls
-     * @param array $links
+     * @param string $unsplashId
+     * @param int    $width
+     * @param int    $height
+     * @param string $color
+     * @param int    $likes
      */
-    public function __construct(UnsplashUser $unsplashUser, $unsplashId, $description, $createdAt, $width, $height, $color, $likes, array $urls, array $links, array $location)
+    public function __construct(#[ORM\ManyToOne(targetEntity: UnsplashUser::class)]
+        private readonly UnsplashUser $unsplashUser, #[ORM\Column(name: 'unsplash_id', type: 'string', nullable: false, unique: true)]
+        private $unsplashId, $description, $createdAt, #[ORM\Column(name: 'width', type: 'integer', nullable: false)]
+        private $width, #[ORM\Column(name: 'height', type: 'integer', nullable: false)]
+        private $height, #[ORM\Column(name: 'color', type: 'string', nullable: false)]
+        private $color, #[ORM\Column(name: 'likes', type: 'integer')]
+        private $likes, array $urls, array $links, array $location)
     {
-        $this->unsplashUser = $unsplashUser;
-        $this->unsplashId = $unsplashId;
-        $this->createdAt = new DateTime($createdAt);
-        $this->width = $width;
-        $this->height = $height;
-        $this->color = $color;
-        $this->likes = $likes;
+        $this->createdAt = new \DateTime($createdAt);
 
         if (array_key_exists('raw', $urls)) {
             $this->urlRaw = $urls['raw'];
@@ -185,14 +144,11 @@ class UnsplashPhoto
         }
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->unsplashId.' - '.$this->description.$this->unsplashUser->getName();
     }
 
-    /**
-     * @return mixed
-     */
     public function getId()
     {
         return $this->id;
@@ -207,7 +163,7 @@ class UnsplashPhoto
     }
 
     /**
-     * @return DateTime
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -287,8 +243,6 @@ class UnsplashPhoto
     }
 
     /**
-     * @param int $userId
-     *
      * @return UserPhoto[]
      */
     public function getUserPhotoByUser(int $userId)
@@ -300,8 +254,6 @@ class UnsplashPhoto
     }
 
     /**
-     * @param int $userId
-     *
      * @return UserLike
      */
     public function getLikeByUser(int $userId)

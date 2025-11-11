@@ -2,7 +2,6 @@
 
 namespace Disjfa\MozaicBundle\Entity;
 
-use DateTime;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 
@@ -26,8 +25,6 @@ class DailyRepository extends EntityRepository
     }
 
     /**
-     * @param DailyDateTime $dateTime
-     *
      * @return Daily|null
      *
      * @throws NonUniqueResultException
@@ -42,11 +39,9 @@ class DailyRepository extends EntityRepository
     }
 
     /**
-     * @param DateTime $dateTime
-     *
      * @return Daily[]
      */
-    public function findByMonthAndYear(DateTime $dateTime)
+    public function findByMonthAndYear(\DateTime $dateTime)
     {
         $qb = $this->createQueryBuilder('daily');
         $qb->where('daily.dateDaily > :mindate');

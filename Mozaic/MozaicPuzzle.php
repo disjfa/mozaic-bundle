@@ -29,8 +29,6 @@ class MozaicPuzzle
 
     /**
      * MozaicPuzzle constructor.
-     *
-     * @param UnsplashPhoto $unsplashPhoto
      */
     public function __construct(UnsplashPhoto $unsplashPhoto)
     {

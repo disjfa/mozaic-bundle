@@ -2,7 +2,7 @@
 
 {% trans_default_domain 'mozaic' %}
 
-{% block page_title %}
+{% block title %}
     Seasons - {{ parent() }}
 {% endblock %}
 
@@ -23,7 +23,7 @@
     <meta property="og:description" content="Play a mozaic puzzle season"/>
 {% endblock %}
 
-{% block main %}
+{% block body %}
     {% for season in seasons %}
         {% if loop.first %}
             <div class="bg-primary text-white py-5">

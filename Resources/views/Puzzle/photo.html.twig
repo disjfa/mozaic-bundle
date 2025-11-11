@@ -13,11 +13,11 @@
     <meta property="og:description" content="Play a mozaic puzzle"/>
 {% endblock %}
 
-{% block page_title %}
+{% block title %}
     Puzzle by {{ unsplashPhoto.unsplashUser.name }} - {{ parent() }}
 {% endblock %}
 
-{% block main %}
+{% block body %}
     <div class="container py-3">
         {% if unsplashSeason is defined %}
             <nav aria-label="breadcrumb">
@@ -38,7 +38,7 @@
                 </div>
             {% endif %}
         {% else %}
-            <h1>{{ 'site.title.mozaic' | trans | desc('Mozaic by dimme') }}</h1>
+            <h1>{{ 'site.title.mozaic' | trans }}</h1>
         {% endif %}
 
         <div class="row">
@@ -77,19 +77,19 @@
                 <hr>
                 <a href="{{ path('disjfa_mozaic_puzzle_random') }}">
                     <i class="fas fa-random"></i>
-                    {{ 'site.button.random_new_photo' | trans | desc('Random new photo') }}
+                    {{ 'site.button.random_new_photo' | trans }}
                 </a>
                 {% if app.user %}
                     <hr>
                     {% if myPhotos | length %}
                         <div class="text-success">
                             <i class="fas fa-check"></i>
-                            {{ 'mozaic.title.you_have_finished_this_image' | trans | desc('Finished!') }}
+                            {{ 'mozaic.title.you_have_finished_this_image' | trans }}
                         </div>
                     {% else %}
                         <div class="text-black-50">
                             <i class="fas fa-minus"></i>
-                            {{ 'mozaic.title.you_have_not_finished_this_image' | trans | desc('Not finished') }}
+                            {{ 'mozaic.title.you_have_not_finished_this_image' | trans }}
                         </div>
                     {% endif %}
                 {% endif %}

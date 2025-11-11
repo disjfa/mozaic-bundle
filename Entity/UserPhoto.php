@@ -2,53 +2,37 @@
 
 namespace Disjfa\MozaicBundle\Entity;
 
-use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
+use Symfony\Bridge\Doctrine\Types\UuidType;
+use Symfony\Component\Uid\Uuid;
 
-/**
- * @ORM\Entity(repositoryClass="UserPhotoRepository")
- * @ORM\Table(name="user_photos")
- */
+#[ORM\Entity(repositoryClass: \UserPhotoRepository::class)]
+#[ORM\Table(name: 'user_photos')]
 class UserPhoto
 {
     /**
      * @var string
-     * @ORM\Column(type="guid")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
      */
-    private $id;
+    #[ORM\Id]
+    #[ORM\Column(type: UuidType::NAME, unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
+    private ?Uuid $id = null;
 
     /**
-     * @var UnsplashPhoto
-     * @ORM\ManyToOne(targetEntity="Disjfa\MozaicBundle\Entity\UnsplashPhoto", inversedBy="userPhotos")
+     * @param string $userId
      */
-    private $unsplashPhoto;
-
-    /**
-     * @var DateTime
-     * @ORM\Column(name="date_started", type="datetime", nullable=false)
-     */
-    private $dateStarted;
-
-    /**
-     * @var string
-     * @ORM\Column(name="user_id", type="string", nullable=true)
-     */
-    private $userId;
-
-    /**
-     * @var DateTime
-     * @ORM\Column(name="date_finished", type="datetime", nullable=false)
-     */
-    private $dateFinished;
-
-    public function __construct(UnsplashPhoto $unsplashPhoto, $userId = null, DateTime $dateStarted, DateTime $dateFinished)
-    {
-        $this->unsplashPhoto = $unsplashPhoto;
-        $this->userId = $userId;
-        $this->dateStarted = $dateStarted;
-        $this->dateFinished = $dateFinished;
+    public function __construct(
+        #[ORM\ManyToOne(targetEntity: UnsplashPhoto::class, inversedBy: 'userPhotos')]
+        private readonly UnsplashPhoto $unsplashPhoto,
+        #[ORM\Column(name: 'user_id', type: 'string', nullable: true)]
+        private $userId = null,
+        #[ORM\Column(name: 'date_started', type: 'datetime', nullable: false)]
+        private readonly ?\DateTime $dateStarted = null,
+        #[ORM\Column(name: 'date_finished', type: 'datetime', nullable: false)]
+        private readonly ?\DateTime $dateFinished = null,
+    ) {
     }
 
     /**
@@ -68,7 +52,7 @@ class UserPhoto
     }
 
     /**
-     * @return DateTime
+     * @return \DateTime
      */
     public function getDateStarted()
     {
@@ -84,7 +68,7 @@ class UserPhoto
     }
 
     /**
-     * @return DateTime
+     * @return \DateTime
      */
     public function getDateFinished()
     {

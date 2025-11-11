@@ -7,17 +7,15 @@ class MozaicSize
     /**
      * @var int
      */
-    private $width;
-    /**
-     * @var int
-     */
     private $height;
 
-    public function __construct($width, $height = null)
+    /**
+     * @param int $width
+     */
+    public function __construct(private $width, $height = null)
     {
-        $this->width = $width;
         if (null === $height) {
-            $this->height = $width / 16 * 9;
+            $this->height = $this->width / 16 * 9;
         } else {
             $this->height = $height;
         }

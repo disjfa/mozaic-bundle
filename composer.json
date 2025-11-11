@@ -1,29 +1,35 @@
 {
-  "name": "disjfa/mozaic-bundle",
-  "description": "Mozaic puzzle for symfony, can also be use in glynn-admin-symfony",
-  "keywords": [
-    "puzzle"
-  ],
-  "type": "symfony-bundle",
-  "require": {
-    "crewlabs/unsplash": "^3.2",
-    "symfony/orm-pack": "^2"
-  },
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "disjfa",
-      "email": "disjfa@disjfa.nl"
+    "name": "disjfa/mozaic-bundle",
+    "description": "Mozaic puzzle for symfony, can also be use in glynn-admin-symfony",
+    "keywords": [
+        "puzzle"
+    ],
+    "type": "symfony-bundle",
+    "require": {
+        "knplabs/knp-paginator-bundle": "^6.9",
+        "symfony/routing": "6.4.*",
+        "symfony/orm-pack": "^2",
+        "symfony/security-bundle": "6.4.*",
+        "symfony/translation": "6.4.*",
+        "symfony/twig-bundle": "6.4.*",
+        "symfony/uid": "6.4.*",
+        "unsplash/unsplash": "^3.2"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "disjfa",
+            "email": "disjfa@disjfa.nl"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Disjfa\\MozaicBundle\\": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1.x-dev"
+        }
     }
-  ],
-  "autoload": {
-    "psr-4": {
-      "Disjfa\\MozaicBundle\\": ""
-    }
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-master": "0.1.x-dev"
-    }
-  }
 }

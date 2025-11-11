@@ -1,7 +1,3 @@
-parameters:
-    disjfa_mozaic.unsplash.application_id: ''
-    disjfa_mozaic.unsplash.secret: ''
-
 services:
     _defaults:
         autowire: true
@@ -29,14 +25,6 @@ services:
         class: Disjfa\MozaicBundle\Menu\MozaicAdminMenuListener
         tags:
             - { name: 'kernel.event_listener', event: 'admin.menu_configure', method: 'onMenuConfigure' }
-
-    Disjfa\MozaicBundle\Services\UnsplashClient:
-        class: Disjfa\MozaicBundle\Services\UnsplashClient
-        arguments:
-            - '%disjfa_mozaic.unsplash.application_id%'
-            - '%disjfa_mozaic.unsplash.secret%'
-            - '@router'
-            - '@doctrine.orm.entity_manager'
 
     Disjfa\MozaicBundle\Twig\UnsplashExtension:
         class: Disjfa\MozaicBundle\Twig\UnsplashExtension

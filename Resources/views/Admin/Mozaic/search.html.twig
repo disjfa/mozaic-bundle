@@ -2,7 +2,7 @@
 
 {% trans_default_domain 'mozaic' %}
 
-{% block page_title %}
+{% block title %}
     {{ 'admin.title.search' | trans | desc('Search for new images') }} - {{ parent() }}
 {% endblock %}
 
@@ -10,7 +10,7 @@
     {{ 'admin.page_title.search' | trans | desc('Search for new images') }}
 {% endblock %}
 
-{% block main %}
+{% block body %}
     <div class="bg-light py-3">
         <div class="container">
             {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}

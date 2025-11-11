@@ -4,44 +4,29 @@ namespace Disjfa\MozaicBundle\Controller\Admin;
 
 use Disjfa\MozaicBundle\Entity\UnsplashSeasonItem;
 use Disjfa\MozaicBundle\Form\Type\AdminSeasonItemType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-/**
- * @Route("/admin/mozaic_season/items")
- */
-class SeasonItemController extends Controller
+#[Route(path: '/admin/mozaic_season/items')]
+class SeasonItemController extends AbstractController
 {
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
-
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(private readonly TranslatorInterface $translator)
     {
-        $this->translator = $translator;
     }
 
     /**
-     * @Route("/{unsplashSeasonItem}/edit", name="disjfa_mozaic_admin_season_item_edit")
-     *
-     * @param Request            $request
-     * @param UnsplashSeasonItem $unsplashSeasonItem
-     *
      * @return Response
      */
+    #[Route(path: '/{unsplashSeasonItem}/edit', name: 'disjfa_mozaic_admin_season_item_edit')]
     public function editAction(Request $request, UnsplashSeasonItem $unsplashSeasonItem)
     {
         return $this->handleForm($request, $unsplashSeasonItem);
     }
 
     /**
-     * @param Request            $request
-     * @param UnsplashSeasonItem $unsplashSeasonItem
-     *
      * @return Response
      */
     private function handleForm(Request $request, UnsplashSeasonItem $unsplashSeasonItem)

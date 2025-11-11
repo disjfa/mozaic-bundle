@@ -2,17 +2,12 @@
 
 namespace Disjfa\MozaicBundle\Entity;
 
-use DateTime;
-
 /**
  * Class DailyDateTime.
  */
-class DailyDateTime extends DateTime
+class DailyDateTime extends \DateTime implements \Stringable
 {
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->format('Y-m-d');
     }
