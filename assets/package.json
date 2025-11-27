@@ -1,0 +1,24 @@
+{
+    "name": "@disjfa/mozaic",
+    "version": "1.0.0",
+    "symfony": {
+        "controllers": {
+            "slug": {
+                "main": "dist/mozaic_controller.js",
+                "fetch": "eager",
+                "enabled": true,
+                "autoimport": {
+                    "@disjfa/mozaic/dist/mozaic.css": true
+                }
+            }
+        },
+        "importmap": {
+            "@hotwired/stimulus": "^3.0.0",
+            "slugify": "^1.6.5"
+        }
+    },
+    "peerDependencies": {
+        "@hotwired/stimulus": "^3.0.0",
+        "slugify": "^1.6.5"
+    }
+}

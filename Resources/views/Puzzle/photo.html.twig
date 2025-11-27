@@ -46,19 +46,13 @@
                 <div {{ stimulus_controller('mozaic', {route: path('disjfa_mozaic_api_puzzle_photo', {'unsplashPhoto': unsplashPhoto.unsplashId}), token: csrf_token(unsplashPhoto.id), finish: path('disjfa_mozaic_api_puzzle_finish', {'unsplashPhoto': unsplashPhoto.unsplashId}) }) }}>
                     <div>
                         <div class="mozaic-body">
-                            <div class="mozaic-base" {{  stimulus_target('mozaic', 'base') }}>
-
-                            </div>
+                            <div class="mozaic-base" {{ stimulus_target('mozaic', 'base') }}></div>
                             <div>
-                                <a href="#" class="btn close" @click="toggleFullscreen()">
-                                    <i class="fa fa-times"></i>
-                                </a>
-                                <a href="#" class="btn fullscreen pull-right" @click="toggleFullscreen()">
+                                <button class="btn fullscreen pull-right" {{ stimulus_target('mozaic', 'fullscreen') }}>
                                     <i class="fa fa-window-maximize"></i>
                                     Full screen
-                                </a>
-                                ClickCount: <span class="tag tag-success"></span>
-                                <span class="tag tag-success" v-if="done">Success</span>
+                                </button>
+                                ClickCount: <span class="tag tag-success" {{ stimulus_target('mozaic', 'count') }}></span>
                             </div>
                         </div>
                     </div>
