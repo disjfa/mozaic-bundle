@@ -15,6 +15,7 @@ var controller_default = class extends Controller {
   done = false;
 
   connect() {
+    console.log('a');
     this.initData();
   }
 
@@ -145,6 +146,7 @@ var controller_default = class extends Controller {
     return false;
   }
 };
+
 export {
   controller_default as default
 };
