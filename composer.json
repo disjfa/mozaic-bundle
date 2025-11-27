@@ -2,7 +2,8 @@
     "name": "disjfa/mozaic-bundle",
     "description": "Mozaic puzzle for symfony, can also be use in glynn-admin-symfony",
     "keywords": [
-        "puzzle"
+        "puzzle",
+        "symfony-ux"
     ],
     "type": "symfony-bundle",
     "require": {

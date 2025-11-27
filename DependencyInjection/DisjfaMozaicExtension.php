@@ -32,7 +32,7 @@ class DisjfaMozaicExtension extends Extension implements PrependExtensionInterfa
         $container->prependExtensionConfig('framework', [
             'asset_mapper' => [
                 'paths' => [
-                    __DIR__.'/../Resources/public' => '@disjfa/mozaic',
+                    __DIR__.'/../assets' => '@disjfa/mozaic',
                 ],
             ],
         ]);
