@@ -14,6 +14,7 @@ class SeasonController extends AbstractController
     public function __construct(private readonly \Doctrine\Persistence\ManagerRegistry $managerRegistry)
     {
     }
+
     /**
      * @return Response
      */

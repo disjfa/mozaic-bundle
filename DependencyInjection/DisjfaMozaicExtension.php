@@ -22,7 +22,6 @@ class DisjfaMozaicExtension extends Extension implements PrependExtensionInterfa
         $loader->load('services.yml');
     }
 
-
     public function prepend(ContainerBuilder $container): void
     {
         if (!$this->isAssetMapperAvailable($container)) {
