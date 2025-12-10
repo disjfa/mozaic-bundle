@@ -11,6 +11,9 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route(path: '/mozaic-season')]
 class SeasonController extends AbstractController
 {
+    public function __construct(private readonly \Doctrine\Persistence\ManagerRegistry $managerRegistry)
+    {
+    }
     /**
      * @return Response
      */
@@ -18,7 +21,7 @@ class SeasonController extends AbstractController
     public function indexAction()
     {
         return $this->render('@DisjfaMozaic/Season/index.html.twig', [
-            'seasons' => $this->getDoctrine()->getRepository(UnsplashSeason::class)->findPublicSeasons(),
+            'seasons' => $this->managerRegistry->getRepository(UnsplashSeason::class)->findPublicSeasons(),
         ]);
     }
 

@@ -16,7 +16,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Route(path: '/admin/mozaic_season')]
 class SeasonController extends AbstractController
 {
-    public function __construct(private readonly TranslatorInterface $translator, private readonly UnsplashClient $unsplashClient)
+    public function __construct(private readonly TranslatorInterface $translator, private readonly UnsplashClient $unsplashClient, private readonly \Doctrine\Persistence\ManagerRegistry $managerRegistry)
     {
     }
 
@@ -24,7 +24,7 @@ class SeasonController extends AbstractController
     public function indexAction()
     {
         return $this->render('@DisjfaMozaic/Admin/Season/index.html.twig', [
-            'seasons' => $this->getDoctrine()->getRepository(UnsplashSeason::class)->findBy([], ['dateSeason' => 'DESC']),
+            'seasons' => $this->managerRegistry->getRepository(UnsplashSeason::class)->findBy([], ['dateSeason' => 'DESC']),
         ]);
     }
 
@@ -43,8 +43,8 @@ class SeasonController extends AbstractController
                 $unsplashPhoto = $this->unsplashClient->find($unsplashId);
                 $unsplashSeasonItem = new UnsplashSeasonItem($unsplashSeason, $unsplashPhoto);
 
-                $this->getDoctrine()->getManager()->persist($unsplashSeasonItem);
-                $this->getDoctrine()->getManager()->flush();
+                $this->managerRegistry->getManager()->persist($unsplashSeasonItem);
+                $this->managerRegistry->getManager()->flush();
 
                 $this->addFlash('success', 'Photo added');
 
@@ -58,7 +58,7 @@ class SeasonController extends AbstractController
 
         return $this->render('@DisjfaMozaic/Admin/Season/show.html.twig', [
             'unsplashSeason' => $unsplashSeason,
-            'form' => $form->createView(),
+            'form' => $form,
         ]);
     }
 
@@ -87,7 +87,7 @@ class SeasonController extends AbstractController
         $form = $this->createForm(AdminSeasonType::class, $unsplashSeason);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->managerRegistry->getManager();
 
             $entityManager->persist($unsplashSeason);
             $entityManager->flush();
@@ -100,7 +100,7 @@ class SeasonController extends AbstractController
         }
 
         return $this->render('@DisjfaMozaic/Admin/Season/form.html.twig', [
-            'form' => $form->createView(),
+            'form' => $form,
         ]);
     }
 }

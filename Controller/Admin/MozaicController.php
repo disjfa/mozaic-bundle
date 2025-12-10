@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route(path: '/admin/mozaic')]
 class MozaicController extends AbstractController
 {
-    public function __construct(private readonly PaginatorInterface $paginator, private readonly UnsplashClient $unsplashClient)
+    public function __construct(private readonly PaginatorInterface $paginator, private readonly UnsplashClient $unsplashClient, private readonly \Doctrine\Persistence\ManagerRegistry $managerRegistry)
     {
     }
 
@@ -31,8 +31,8 @@ class MozaicController extends AbstractController
         $form->handleRequest($request);
 
         return $this->render('@DisjfaMozaic/Admin/Mozaic/daily.html.twig', [
-            'form' => $form->createView(),
-            'daily' => $this->getDoctrine()->getRepository(Daily::class)->findByMonthAndYear($form->get('date')->getData()),
+            'form' => $form,
+            'daily' => $this->managerRegistry->getRepository(Daily::class)->findByMonthAndYear($form->get('date')->getData()),
         ]);
     }
 
@@ -42,7 +42,7 @@ class MozaicController extends AbstractController
     #[Route(path: '/photos', name: 'disjfa_mozaic_admin_mozaic_photos')]
     public function photosAction(Request $request)
     {
-        $unsplashPhotos = $this->getDoctrine()->getRepository(UnsplashPhoto::class)->findAllPaginated($this->paginator, $request->query->getInt('page', 1), $request->query->getInt('limit', 16));
+        $unsplashPhotos = $this->managerRegistry->getRepository(UnsplashPhoto::class)->findAllPaginated($this->paginator, $request->query->getInt('page', 1), $request->query->getInt('limit', 16));
 
         return $this->render('@DisjfaMozaic/Admin/Mozaic/photos.html.twig', [
             'unsplashPhotos' => $unsplashPhotos,
@@ -69,7 +69,7 @@ class MozaicController extends AbstractController
         }
 
         return $this->render('@DisjfaMozaic/Admin/Mozaic/search.html.twig', [
-            'form' => $form->createView(),
+            'form' => $form,
             'unsplashPhoto' => $unsplashPhoto,
         ]);
     }

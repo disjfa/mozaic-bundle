@@ -13,7 +13,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Route(path: '/admin/mozaic_season/items')]
 class SeasonItemController extends AbstractController
 {
-    public function __construct(private readonly TranslatorInterface $translator)
+    public function __construct(private readonly TranslatorInterface $translator, private readonly \Doctrine\Persistence\ManagerRegistry $managerRegistry)
     {
     }
 
@@ -34,7 +34,7 @@ class SeasonItemController extends AbstractController
         $form = $this->createForm(AdminSeasonItemType::class, $unsplashSeasonItem);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->managerRegistry->getManager();
 
             $entityManager->persist($unsplashSeasonItem);
             $entityManager->flush();
@@ -47,7 +47,7 @@ class SeasonItemController extends AbstractController
         }
 
         return $this->render('@DisjfaMozaic/Admin/SeasonItem/form.html.twig', [
-            'form' => $form->createView(),
+            'form' => $form,
             'unsplashSeasonItem' => $unsplashSeasonItem,
         ]);
     }

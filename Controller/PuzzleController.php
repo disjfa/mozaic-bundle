@@ -21,7 +21,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Route(path: '/mozaic')]
 class PuzzleController extends AbstractController
 {
-    public function __construct(private readonly UnsplashClient $unsplashClient, private readonly TranslatorInterface $translator, private EntityManagerInterface $entityManager)
+    public function __construct(private readonly UnsplashClient $unsplashClient, private readonly TranslatorInterface $translator, private readonly EntityManagerInterface $entityManager)
     {
     }
 

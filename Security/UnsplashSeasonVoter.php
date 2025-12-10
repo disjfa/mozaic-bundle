@@ -13,7 +13,7 @@ class UnsplashSeasonVoter extends Voter
     public const VIEW = 'view';
     public const EDIT = 'edit';
 
-    public function __construct(private readonly Security $security)
+    public function __construct(private readonly \Symfony\Bundle\SecurityBundle\Security $security)
     {
     }
 
