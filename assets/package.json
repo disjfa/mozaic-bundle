@@ -8,7 +8,7 @@
                 "fetch": "eager",
                 "enabled": true,
                 "autoimport": {
-                    "@disjfa/mozaic/dist/mozaic.css": true
+                    "@disjfa/mozaic-bundle/dist/mozaic.css": true
                 }
             }
         },

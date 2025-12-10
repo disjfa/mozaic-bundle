@@ -43,16 +43,16 @@
 
         <div class="row">
             <div class="col-12 col-md-10">
-                <div {{ stimulus_controller('mozaic', {route: path('disjfa_mozaic_api_puzzle_photo', {'unsplashPhoto': unsplashPhoto.unsplashId}), token: csrf_token(unsplashPhoto.id), finish: path('disjfa_mozaic_api_puzzle_finish', {'unsplashPhoto': unsplashPhoto.unsplashId}) }) }}>
+                <div {{ stimulus_controller('disjfa/mozaic-bundle/puzzle', {route: path('disjfa_mozaic_api_puzzle_photo', {'unsplashPhoto': unsplashPhoto.unsplashId}), token: csrf_token(unsplashPhoto.id), finish: path('disjfa_mozaic_api_puzzle_finish', {'unsplashPhoto': unsplashPhoto.unsplashId}) }) }}>
                     <div>
                         <div class="mozaic-body">
-                            <div class="mozaic-base" {{ stimulus_target('mozaic', 'base') }}></div>
+                            <div class="mozaic-base" {{ stimulus_target('disjfa/mozaic-bundle/puzzle', 'base') }}></div>
                             <div>
-                                <button class="btn fullscreen pull-right" {{ stimulus_target('mozaic', 'fullscreen') }}>
+                                <button class="btn fullscreen pull-right" {{ stimulus_target('disjfa/mozaic-bundle/puzzle', 'fullscreen') }}>
                                     <i class="fa fa-window-maximize"></i>
                                     Full screen
                                 </button>
-                                ClickCount: <span class="tag tag-success" {{ stimulus_target('mozaic', 'count') }}></span>
+                                ClickCount: <span class="tag tag-success" {{ stimulus_target('disjfa/mozaic-bundle/puzzle', 'count') }}></span>
                             </div>
                         </div>
                     </div>
