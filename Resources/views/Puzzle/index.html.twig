@@ -14,7 +14,7 @@
             {% for daily in lastPhotos %}
                 <div class="col-lg-3 col-sm-6 my-2">
                     <a href="{{ path('disjfa_mozaic_puzzle_photo', {'unsplashPhoto': daily.unsplashPhoto.unsplashId}) }}" class="card">
-                        <img src="{{ daily.unsplashPhoto | unsplash_photo_block }}" alt="" class="card-img img-fluid">
+                        <img src="{{ daily.unsplashPhoto | unsplash_photo_block }}" alt="" class="card-img-top aspect-ratio-16x9">
                         <div class="card-body">
                             {{ daily.unsplashPhoto.unsplashUser.name }}
                         </div>

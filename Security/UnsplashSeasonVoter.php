@@ -3,7 +3,9 @@
 namespace Disjfa\MozaicBundle\Security;
 
 use Disjfa\MozaicBundle\Entity\UnsplashSeason;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\Vote;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -12,7 +14,7 @@ class UnsplashSeasonVoter extends Voter
     public const VIEW = 'view';
     public const EDIT = 'edit';
 
-    public function __construct(private readonly \Symfony\Bundle\SecurityBundle\Security $security)
+    public function __construct(private readonly Security $security)
     {
     }
 
@@ -34,7 +36,7 @@ class UnsplashSeasonVoter extends Voter
     /**
      * @param UnsplashSeason $subject
      */
-    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token, ?Vote $vote = null): bool
     {
         $user = $token->getUser();
 

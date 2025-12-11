@@ -8,14 +8,7 @@ use Twig\TwigFilter;
 
 class UnsplashExtension extends AbstractExtension
 {
-    public function getFilters()
-    {
-        return [
-            new TwigFilter('unsplash_photo_block', $this->unsplashPhotoBlock(...)),
-        ];
-    }
-
-    public function unsplashPhotoBlock(UnsplashPhoto $unsplashPhoto)
+    public function unsplashPhotoBlock(UnsplashPhoto $unsplashPhoto): string
     {
         $outputWidth = 600;
         $outputHeight = $outputWidth / 16 * 9;
@@ -43,8 +36,10 @@ class UnsplashExtension extends AbstractExtension
         return $unsplashPhoto->getUrlRaw().'?'.http_build_query($params, '&amp;');
     }
 
-    public function getName()
+    public function getFilters()
     {
-        return 'unsplash_extension';
+        return [
+            new TwigFilter('unsplash_photo_block', $this->unsplashPhotoBlock(...)),
+        ];
     }
 }
