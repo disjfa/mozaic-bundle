@@ -9,7 +9,7 @@ use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
 
-#[ORM\Entity(repositoryClass: \UnsplashPhotoRepository::class)]
+#[ORM\Entity(repositoryClass: UnsplashPhotoRepository::class)]
 #[ORM\Table(name: 'unsplash_images')]
 class UnsplashPhoto implements \Stringable
 {

@@ -3,18 +3,18 @@
 {% trans_default_domain 'mozaic' %}
 
 {% block title %}
-    {{ 'admin.title.season_index' | trans | desc('Seasons') }} - {{ parent() }}
+    {{ 'admin.title.season_index' | trans }} - {{ parent() }}
 {% endblock %}
 
 {% block content_title %}
-    {{ 'admin.page_title.season_index' | trans | desc('Seasons') }}
+    {{ 'admin.page_title.season_index' | trans }}
 {% endblock %}
 
 {% block body %}
     <div class="container py-3">
         <a href="{{ path('disjfa_mozaic_admin_season_create') }}" class="btn btn-primary">
             <i class="fas fa-plus"></i>
-            {{ 'admin.button.create_season' | trans | desc('Create season') }}
+            {{ 'admin.button.create_season' | trans }}
         </a>
 
         {% for season in seasons %}

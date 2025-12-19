@@ -3,11 +3,11 @@
 {% trans_default_domain 'mozaic' %}
 
 {% block title %}
-    {{ 'admin.title.daily_photos' | trans | desc('Daily photos') }} - {{ parent() }}
+    {{ 'admin.title.daily_photos' | trans }} - {{ parent() }}
 {% endblock %}
 
 {% block content_title %}
-    {{ 'admin.page_title.daily_photos' | trans | desc('Daily photos') }}
+    {{ 'admin.page_title.daily_photos' | trans }}
 {% endblock %}
 
 {% block body %}
@@ -17,7 +17,7 @@
             {{ form_rest(form) }}
             <div class="form-group">
                 <button type="submit" class="btn btn-secondary">
-                    {{ 'admin.button.filter' | trans | desc('Filter') }}
+                    {{ 'admin.button.filter' | trans }}
                 </button>
             </div>
             {{ form_end(form) }}
@@ -37,7 +37,7 @@
             {% else %}
                 <div class="col-12 py-3">
                     <div class="alert alert-info">
-                        {{ 'admin.label.No_items_found' | trans | desc('No items found') }}
+                        {{ 'admin.label.No_items_found' | trans }}
                     </div>
                 </div>
             {% endfor %}

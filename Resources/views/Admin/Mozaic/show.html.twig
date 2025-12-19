@@ -3,22 +3,22 @@
 {% trans_default_domain 'mozaic' %}
 
 {% block content_title %}
-    {{ 'admin.page_title.photo_by' | trans({'%username%': unsplashPhoto.unsplashUser.name}) | desc('Photo by %username%') }}
+    {{ 'admin.page_title.photo_by' | trans({'%username%': unsplashPhoto.unsplashUser.name}) }}
 {% endblock %}
 
 {% block title %}
-    {{ 'admin.title.photo_by' | trans({'%username%': unsplashPhoto.unsplashUser.name}) | desc('Photo by %username%') }} - {{ parent() }}
+    {{ 'admin.title.photo_by' | trans({'%username%': unsplashPhoto.unsplashUser.name}) }} - {{ parent() }}
 {% endblock %}
 
 {% block body %}
     <div class="container">
         <div class="row">
             <div class="col py-2">
-                <h4>{{ 'admin.bio.title' | trans | desc('Bio') }}</h4>
+                <h4>{{ 'admin.bio.title' | trans }}</h4>
                 <p>
                     {{ unsplashPhoto.unsplashUser.bio }}
                 </p>
-                <h4>{{ 'admin.finished.title' | trans | desc('Finished') }}</h4>
+                <h4>{{ 'admin.finished.title' | trans  }}</h4>
                 <ul>
                     {% for userPhoto in unsplashPhoto.userPhotos %}
                         <li>
@@ -26,12 +26,12 @@
                         </li>
                     {% else %}
                         <li>
-                            <em>{{ 'admin.label.no_one_yet' | trans | desc('No one yet!') }}</em>
+                            <em>{{ 'admin.label.no_one_yet' | trans }}</em>
                         </li>
                     {% endfor %}
                 </ul>
                 <a href="{{ path('disjfa_mozaic_puzzle_photo', {'unsplashPhoto': unsplashPhoto.unsplashId}) }}" class="btn btn-outline-primary">
-                    {{ 'admin.button.check_on_site' | trans | desc('Check on site') }}
+                    {{ 'admin.button.check_on_site' | trans }}
                 </a>
             </div>
             <div class="col-12 col-md-8 py-2">

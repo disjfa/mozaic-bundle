@@ -15,7 +15,6 @@ class AdminDateType extends AbstractType
     {
         $builder->add('date', DateType::class, [
             'data' => new \DateTime(),
-            'format' => 'yyyyMMdd',
             'days' => [1],
         ]);
     }

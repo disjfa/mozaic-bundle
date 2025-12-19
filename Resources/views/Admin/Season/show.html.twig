@@ -16,7 +16,7 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
                     <a href="{{ path('disjfa_mozaic_admin_season_index') }}">
-                        {{ 'admin.breadcrumb.season_index' | trans | desc('Seasons') }}
+                        {{ 'admin.breadcrumb.season_index' | trans }}
                     </a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">{{ unsplashSeason.title }}</li>
@@ -27,11 +27,11 @@
             <div class="btn-group">
                 <a href="{{ path('disjfa_mozaic_admin_season_edit', {'unsplashSeason': unsplashSeason.id}) }}" class="btn btn-outline-primary">
                     <i class="fas fa-edit"></i>
-                    {{ 'admin.button.edit_season' | trans | desc('Edit season') }}
+                    {{ 'admin.button.edit_season' | trans }}
                 </a>
                 <a href="{{ path('disjfa_mozaic_season_show', {'unsplashSeason': unsplashSeason.id}) }}" class="btn btn-outline-primary">
                     <i class="fas fa-paper-plane"></i>
-                    {{ 'admin.button.show_on_site' | trans | desc('Show on site') }}
+                    {{ 'admin.button.show_on_site' | trans }}
                 </a>
             </div>
         </h1>
@@ -49,7 +49,7 @@
 
             <button type="submit" class="btn btn-primary">
                 <i class="fas fa-plus"></i>
-                {{ 'admin.label.search_and_add' | trans | desc('Search and add') }}
+                {{ 'admin.label.search_and_add' | trans }}
             </button>
 
             {{ form_end(form) }}
@@ -80,10 +80,10 @@
 
                     <div class="btn-group">
                         <a href="{{ path('disjfa_mozaic_admin_mozaic_show', {'unsplashPhoto': item.unsplashPhoto.unsplashId }) }}" class="btn btn-outline-primary">
-                            {{ 'admin.button.show_photo' | trans | desc('Show photo') }}
+                            {{ 'admin.button.show_photo' | trans }}
                         </a>
                         <a href="{{ path('disjfa_mozaic_admin_season_item_edit', {'unsplashSeasonItem': item.id }) }}" class="btn btn-outline-primary">
-                            {{ 'admin.button.edit_season_item' | trans | desc('Edit item') }}
+                            {{ 'admin.button.edit_season_item' | trans }}
                         </a>
                     </div>
                 </div>

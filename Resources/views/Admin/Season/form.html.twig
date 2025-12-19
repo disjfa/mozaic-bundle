@@ -3,11 +3,11 @@
 {% trans_default_domain 'mozaic' %}
 
 {% block title %}
-    {{ 'admin.title.season_create' | trans | desc('Seasons form') }} - {{ parent() }}
+    {{ 'admin.title.season_create' | trans }} - {{ parent() }}
 {% endblock %}
 
 {% block content_title %}
-    {{ 'admin.page_title.season_create' | trans | desc('Seasons form') }}
+    {{ 'admin.page_title.season_create' | trans }}
 {% endblock %}
 
 {% block body %}
@@ -16,11 +16,11 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
                     <a href="{{ path('disjfa_mozaic_admin_season_index') }}">
-                        {{ 'admin.breadcrumb.season_index' | trans | desc('Seasons') }}
+                        {{ 'admin.breadcrumb.season_index' | trans }}
                     </a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">
-                    {{ 'admin.breadcrumb.season_form' | trans | desc('Edit') }}
+                    {{ 'admin.breadcrumb.season_form' | trans }}
                 </li>
             </ol>
         </nav>
@@ -29,7 +29,7 @@
         {{ form_rest(form) }}
         <button type="submit" class="btn btn-primary">
             <i class="fas fa-save"></i>
-            {{ 'admin.season.button.save_season' | trans | desc('Save season') }}
+            {{ 'admin.season.button.save_season' | trans }}
         </button>
 
         {{ form_end(form) }}

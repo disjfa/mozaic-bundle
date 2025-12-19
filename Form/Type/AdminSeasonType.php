@@ -27,7 +27,7 @@ class AdminSeasonType extends AbstractType
         ]);
 
         $builder->add('dateSeason', DateTimeType::class, [
-            'label' => 'form.admin.season.label.description',
+            'label' => 'form.admin.season.label.date',
             'empty_data' => new \DateTime(),
         ]);
 
