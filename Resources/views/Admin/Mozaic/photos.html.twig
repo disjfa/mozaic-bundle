@@ -3,11 +3,11 @@
 {% trans_default_domain 'mozaic' %}
 
 {% block title %}
-    {{ 'admin.title.all_photos' | trans | desc('All photos') }} - {{ parent() }}
+    {{ 'admin.title.all_photos' | trans }} - {{ parent() }}
 {% endblock %}
 
 {% block content_title %}
-    {{ 'admin.page_title.all_photos' | trans | desc('All photos') }}
+    {{ 'admin.page_title.all_photos' | trans }}
 {% endblock %}
 
 {% block body %}
@@ -36,7 +36,7 @@
             {% else %}
                 <div class="col-12 py-3">
                     <div class="alert alert-info">
-                        {{ 'admin.label.No_items_found' | trans | desc('No items found') }}
+                        {{ 'admin.label.no_items_found' | trans }}
                     </div>
                 </div>
             {% endfor %}

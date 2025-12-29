@@ -2,7 +2,6 @@
 
 namespace Disjfa\MozaicBundle\Controller;
 
-use Crew\Unsplash\Exception as UnsplashException;
 use Disjfa\MozaicBundle\Entity\Daily;
 use Disjfa\MozaicBundle\Entity\DailyDateTime;
 use Disjfa\MozaicBundle\Entity\UnsplashPhoto;
@@ -11,12 +10,13 @@ use Disjfa\MozaicBundle\Entity\UserPhoto;
 use Disjfa\MozaicBundle\Services\UnsplashClient;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
-use FOS\UserBundle\Model\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Unsplash\Exception as UnsplashException;
 
 #[Route(path: '/mozaic')]
 class PuzzleController extends AbstractController
@@ -26,7 +26,7 @@ class PuzzleController extends AbstractController
     }
 
     #[Route(path: '/', name: 'disjfa_mozaic_puzzle_index')]
-    public function indexAction()
+    public function indexAction(): Response
     {
         return $this->render('@DisjfaMozaic/Puzzle/index.html.twig', [
             'lastPhotos' => $this->entityManager->getRepository(Daily::class)->findLatest(),
@@ -34,10 +34,10 @@ class PuzzleController extends AbstractController
     }
 
     #[Route(path: '/my-progress', name: 'disjfa_mozaic_puzzle_my_progress')]
-    public function myProgressAction()
+    public function myProgressAction(): Response
     {
-        if (false === $this->getUser() instanceof User) {
-            return $this->createAccessDeniedException('PLease log in');
+        if (false === $this->getUser() instanceof UserInterface) {
+            throw $this->createAccessDeniedException('PLease log in');
         }
 
         return $this->render('@DisjfaMozaic/Puzzle/my_progress.html.twig', [
@@ -49,7 +49,7 @@ class PuzzleController extends AbstractController
      * @throws NonUniqueResultException
      */
     #[Route(path: '/daily', name: 'disjfa_mozaic_puzzle_daily')]
-    public function daylyAction()
+    public function dailyAction(): Response
     {
         $today = new DailyDateTime('now');
         $daily = $this->entityManager->getRepository(Daily::class)->findDailyByDate($today);
@@ -75,7 +75,7 @@ class PuzzleController extends AbstractController
     }
 
     #[Route(path: '/random', name: 'disjfa_mozaic_puzzle_random')]
-    public function randomAction()
+    public function randomAction(): Response
     {
         try {
             $unsplashPhoto = $this->unsplashClient->random();
@@ -88,11 +88,8 @@ class PuzzleController extends AbstractController
         return $this->redirectToRoute('disjfa_mozaic_puzzle_photo', ['unsplashPhoto' => $unsplashPhoto->getUnsplashId()]);
     }
 
-    /**
-     * @return Response
-     */
     #[Route(path: '/{unsplashPhoto}', name: 'disjfa_mozaic_puzzle_photo')]
-    public function photoAction(UnsplashPhoto $unsplashPhoto)
+    public function photoAction(UnsplashPhoto $unsplashPhoto): Response
     {
         if (null === $this->getUser()) {
             $myPhotos = [];
@@ -111,18 +108,17 @@ class PuzzleController extends AbstractController
     }
 
     /**
-     * @return Response
-     *
      * @throws NonUniqueResultException
      */
     #[Route(path: '/{unsplashPhoto}/like', name: 'disjfa_mozaic_puzzle_photo_like')]
-    public function likeAction(UnsplashPhoto $unsplashPhoto, Request $request)
+    public function likeAction(UnsplashPhoto $unsplashPhoto, Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
-        $userId = $this->getUser()->getId();
-        $userLike = $this->entityManager->getRepository(UserLike::class)->findUserLike($unsplashPhoto, $userId);
+
+        $user = $this->getUser();
+        $userLike = $this->entityManager->getRepository(UserLike::class)->findUserLike($unsplashPhoto, $user);
         if (null === $userLike) {
-            $userLike = new UserLike($unsplashPhoto, $userId, true);
+            $userLike = new UserLike($unsplashPhoto, $user->getId(), true);
         } else {
             $userLike->setLiked(true);
         }
@@ -142,18 +138,17 @@ class PuzzleController extends AbstractController
     }
 
     /**
-     * @return Response
-     *
      * @throws NonUniqueResultException
      */
     #[Route(path: '/{unsplashPhoto}/unlike', name: 'disjfa_mozaic_puzzle_photo_unlike')]
-    public function unlikeAction(UnsplashPhoto $unsplashPhoto, Request $request)
+    public function unlikeAction(UnsplashPhoto $unsplashPhoto, Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
-        $userId = $this->getUser()->getId();
-        $userLike = $this->entityManager->getRepository(UserLike::class)->findUserLike($unsplashPhoto, $userId);
+
+        $user = $this->getUser();
+        $userLike = $this->entityManager->getRepository(UserLike::class)->findUserLike($unsplashPhoto, $user);
         if (null === $userLike) {
-            $userLike = new UserLike($unsplashPhoto, $userId, false);
+            $userLike = new UserLike($unsplashPhoto, $user->getId(), false);
         } else {
             $userLike->setLiked(false);
         }

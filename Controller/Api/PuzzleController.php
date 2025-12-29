@@ -5,23 +5,19 @@ namespace Disjfa\MozaicBundle\Controller\Api;
 use Disjfa\MozaicBundle\Entity\UnsplashPhoto;
 use Disjfa\MozaicBundle\Entity\UserPhoto;
 use Doctrine\ORM\EntityManagerInterface;
-use FOS\UserBundle\Model\User;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[Route(path: '/api/mozaic')]
 class PuzzleController extends AbstractController
 {
-    /**
-     * @return Response
-     */
     #[Route(path: '/{unsplashPhoto}', name: 'disjfa_mozaic_api_puzzle_photo')]
-    public function photoAction(UnsplashPhoto $unsplashPhoto, Request $request)
+    public function photoAction(UnsplashPhoto $unsplashPhoto, Request $request): Response
     {
         //        $mozaicPuzzel = new MozaicPuzzle($unsplashPhoto);
         //        dump($mozaicPuzzel);
@@ -137,15 +133,14 @@ class PuzzleController extends AbstractController
         return new JsonResponse(['mozaic' => $mozaic]);
     }
 
-    /**
-     * @Method("POST")
-     *
-     * @return Response
-     */
-    #[Route(path: '/{unsplashPhoto}/finish', name: 'disjfa_mozaic_api_puzzle_finish')]
-    public function finishAction(UnsplashPhoto $unsplashPhoto, Request $request, EntityManagerInterface $entityManager)
+    #[Route(path: '/{unsplashPhoto}/finish', name: 'disjfa_mozaic_api_puzzle_finish', methods: ['POST'])]
+    public function finishAction(UnsplashPhoto $unsplashPhoto, Request $request, EntityManagerInterface $entityManager): Response
     {
         $requestData = json_decode($request->getContent(), true);
+        if (false === is_array($requestData)) {
+            throw new BadRequestHttpException('No array found');
+        }
+
         if (false === array_key_exists('token', $requestData)) {
             throw new BadRequestHttpException('No token found');
         }
@@ -155,25 +150,25 @@ class PuzzleController extends AbstractController
         }
 
         $user = $this->getUser();
-        if ($user instanceof User) {
+        if ($user instanceof UserInterface) {
             $userId = $user->getId();
         } else {
             $userId = null;
         }
 
         $dateFinished = new \DateTime('now');
-        $session = $dates = $request->g;
-        $sessionetSession()->get;
-        $session('dates');
+        $session = $dates = $request->getSession();
+        $dates = $session->get('dates', []);
+
         if (isset($dates[(string) $unsplashPhoto->getId()])) {
-            $dateStarted = new \DateTime($dates[$unsplashPhoto->getId()]);
+            $dateStarted = new \DateTime($dates[(string) $unsplashPhoto->getId()]);
         } else {
             $dateStarted = $dateFinished;
         }
 
         $userPhoto = new UserPhoto($unsplashPhoto, $userId, $dateStarted, $dateFinished);
         $entityManager->persist($userPhoto);
-        $entityManager->flush($userPhoto);
+        $entityManager->flush();
 
         return new JsonResponse([
             'message' => 'saved',

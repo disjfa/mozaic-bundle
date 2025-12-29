@@ -1,11 +1,12 @@
 import { Controller } from "@hotwired/stimulus";
 
 var controller_default = class extends Controller {
-  static targets = ["base", "count", "fullscreen"]
+  static targets = ["base", "count", "fullscreen", "share"]
 
   static values = {
     route: String,
     token: String,
+    finish: String,
     count: Number,
   }
 
@@ -15,7 +16,6 @@ var controller_default = class extends Controller {
   done = false;
 
   connect() {
-    console.log('a');
     this.initData();
   }
 
@@ -27,6 +27,13 @@ var controller_default = class extends Controller {
 
     this.baseTarget.addEventListener('click', this.checkPiece.bind(this));
     this.fullscreenTarget.addEventListener('click', this.toggleFullscreen.bind(this));
+    this.shareTarget.addEventListener('click', this.share.bind(this));
+  }
+
+  share() {
+    navigator.share({
+      url: window.location.href,
+    })
   }
 
   setupMozaic(data) {
@@ -112,6 +119,14 @@ var controller_default = class extends Controller {
       let img = this.baseTarget.childNodes[index];
       this.setStyles(piece, img.style);
     })
+
+    fetch(this.finishValue, {
+      method: 'POST',
+      body: JSON.stringify({ token: this.tokenValue }),
+    })
+      .then(response => response.json()
+        .then(data => console.info(data))
+      );
   }
 
   setStyles(piece, style) {

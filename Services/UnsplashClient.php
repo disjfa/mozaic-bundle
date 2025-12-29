@@ -33,20 +33,14 @@ class UnsplashClient
         ]);
     }
 
-    /**
-     * @return UnsplashPhoto
-     */
-    public function random()
+    public function random(): UnsplashPhoto
     {
         $photo = Photo::random([]);
 
         return $this->updateOrInsertPhoto($photo);
     }
 
-    /**
-     * @return UnsplashPhoto
-     */
-    public function find(string $unsplashId)
+    public function find(string $unsplashId): UnsplashPhoto
     {
         $unsplashPhoto = $this->entityManager->getRepository(UnsplashPhoto::class)->find($unsplashId);
         if ($unsplashPhoto instanceof UnsplashPhoto) {
@@ -58,10 +52,7 @@ class UnsplashClient
         return $this->updateOrInsertPhoto($photo);
     }
 
-    /**
-     * @return UnsplashPhoto
-     */
-    private function updateOrInsertPhoto(Photo $photo)
+    private function updateOrInsertPhoto(Photo $photo): UnsplashPhoto
     {
         $unsplashUser = $this->entityManager->getRepository(UnsplashUser::class)->find($photo->user['id']);
         if (null === $unsplashUser) {

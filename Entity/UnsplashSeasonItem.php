@@ -8,7 +8,7 @@ use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity]
-#[ORM\Table(name: 'unsplash_season_item')]
+#[ORM\Table(name: 'unsplash_season_item', uniqueConstraints: [new ORM\UniqueConstraint(columns: ['unsplash_season_id', 'unsplash_photo_id'])])]
 class UnsplashSeasonItem
 {
     /**
