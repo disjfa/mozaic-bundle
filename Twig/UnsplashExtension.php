@@ -3,11 +3,10 @@
 namespace Disjfa\MozaicBundle\Twig;
 
 use Disjfa\MozaicBundle\Entity\UnsplashPhoto;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFilter;
 
-class UnsplashExtension extends AbstractExtension
+class UnsplashExtension
 {
+    #[\Twig\Attribute\AsTwigFilter(name: 'unsplash_photo_block')]
     public function unsplashPhotoBlock(UnsplashPhoto $unsplashPhoto): string
     {
         $outputWidth = 600;
@@ -34,12 +33,5 @@ class UnsplashExtension extends AbstractExtension
         ];
 
         return $unsplashPhoto->getUrlRaw().'?'.http_build_query($params, '&amp;');
-    }
-
-    public function getFilters()
-    {
-        return [
-            new TwigFilter('unsplash_photo_block', $this->unsplashPhotoBlock(...)),
-        ];
     }
 }

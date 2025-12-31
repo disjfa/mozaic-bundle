@@ -27,11 +27,6 @@ services:
         tags:
             - { name: 'kernel.event_listener', event: 'admin.menu_configure', method: 'onMenuConfigure' }
 
-    Disjfa\MozaicBundle\Twig\UnsplashExtension:
-        class: Disjfa\MozaicBundle\Twig\UnsplashExtension
-        tags:
-            - { name: twig.extension }
-
     Disjfa\MozaicBundle\Security\:
         resource: './../../Security/*'
         tags: ['security.voter']
