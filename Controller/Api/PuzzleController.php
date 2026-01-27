@@ -27,8 +27,15 @@ class PuzzleController extends AbstractController
 
         $image = $unsplashPhoto->getUrlRaw();
         $width = $unsplashPhoto->getWidth();
-        // $height = 3264;
         $height = $width / 16 * 9;
+
+        $unsplashHeight = $unsplashPhoto->getHeight();
+        $marginTop = 0;
+        if ($unsplashHeight > $width) {
+            $marginTop = floor(($unsplashHeight - $height) / 2);
+        }
+
+        // $height = 3264;
 
         $w = 1040;
         $h = $w / 16 * 9;
@@ -82,7 +89,7 @@ class PuzzleController extends AbstractController
                     'h' => $iHeight,
                     'rect' => implode(',', [
                         $i * $realWidth,
-                        $j * $realHeight,
+                        ($j * $realHeight) + $marginTop,
                         $realWidth * $sizeX,
                         $realHeight * $sizeY,
                     ]),
